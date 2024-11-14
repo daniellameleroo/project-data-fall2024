@@ -1,9 +1,11 @@
-public class cliente {
+package src;
+
+public class Cliente {
     private String nombre;
     private String email;
     private String telefono;
 
-    public cliente(String nombre, String email, String telefono){
+    public Cliente(String nombre, String email, String telefono){
         this.nombre = nombre;
         this.email = email;
         this.telefono = telefono;
@@ -23,7 +25,7 @@ public class cliente {
 
     @Override
     public String toString(){
-        return "Nombre: " + nombre + ", Email: " + email + ", Telefono: " + telefono; 
+        return "Nombre: " + nombre + ", Email: " + email + ", Teléfono: " + telefono; 
     }
     
 }

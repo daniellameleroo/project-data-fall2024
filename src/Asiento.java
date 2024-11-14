@@ -1,11 +1,12 @@
+package src;
 
-public class asiento{
+public class Asiento{
     private String section;
     private int row;
     private int seatNumber;
 
 
-public asiento(String section, int row, int seatNumber ){
+public Asiento(String section, int row, int seatNumber ){
     this.section = section;
     this.row = row;
     this.seatNumber = seatNumber;
