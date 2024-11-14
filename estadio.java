@@ -1,9 +1,7 @@
 import java.util.*;
 
-
-
 public class estadio {
-    private Set<asiento> avaiableSeats;
+    private Set<asiento> avaiableSeats; //Se hace un set para los asientos disponibles
     private HashMap<cliente, List<asiento>> reservations;
     private LinkedList<String> transactionHistory;
     private Stack<String> undoStack;
@@ -17,6 +15,10 @@ public class estadio {
         undoStack = new Stack<>();
         waitingList = new LinkedList<>();
         initializeSeats();
+        initializeReservations();
+        initializeTransactionHistory();
+        initializeUndoStack();
+        initializeWaitingList();
     }
     private void initializeSeats(){
         for (int i = 1; i <=500; i++){
@@ -32,6 +34,16 @@ public class estadio {
         }
     }
     
+    private void initializeReservations(){
+      
+    }
+    private void initializeTransactionHistory(){
 
-    
+    }
+    private void initializeUndoStack(){
+
+    }
+    private void initializeWaitingList(){
+
+    }
 }
