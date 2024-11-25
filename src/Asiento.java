@@ -4,12 +4,14 @@ public class Asiento{
     private String section;
     private int row;
     private int seatNumber;
+    private boolean reservado;
 
 
-public Asiento(String section, int row, int seatNumber ){
+public Asiento(String section, int row, int seatNumber, boolean reservado){
     this.section = section;
     this.row = row;
     this.seatNumber = seatNumber;
+    this.reservado = reservado;
 }
 
 
@@ -24,6 +26,10 @@ public int getRow(){
 
 public int getSeatNumber(){
     return seatNumber;
+}
+
+public boolean getReservado(){
+    return reservado;
 }
 
 @Override
