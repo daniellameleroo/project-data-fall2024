@@ -9,6 +9,7 @@ public class Asiento {
     private int row; //Representa las filas 
     private int seatNumber; //Representa el número de asiento
     private double price;
+    private boolean reservado;
 
     /**
      * Creamos un constructor para crear el asiento 
@@ -16,13 +17,15 @@ public class Asiento {
      * @param row La fila deel asiento
      * @param seatNumber El número del asiento
      * @param price El precio de cada asiento
+     * @param reservado Estado del asiento
      */
 
-    public Asiento(String section, int row, int seatNumber, double price) {
+    public Asiento(String section, int row, int seatNumber, double price, boolean reservado) {
         this.section = section;
         this.row = row;
         this.seatNumber = seatNumber;
         this.price = price;
+        this.reservado = reservado;
     }
 /** 
  * Este string me permite coger la sección 
@@ -55,12 +58,18 @@ public class Asiento {
     public double getPrice(){
         return price;
     }
+/** 
+ * Este boolean muestra el estado del asiento 
+ */
+public boolean getReservado() {
+    return reservado;
+}
 /**
  * Al iagual que en Cliente hicimos un string que nos devuelva la representación del Asiento 
  */
     @Override
     public String toString() {
-        return "Section: " + section + ", Row: " + row + ", Seat: " + seatNumber + "Price:$ "+ price;
+        return "Section: " + section + ", Row: " + row + ", Seat: " + seatNumber + ", Price: $"+ price;
     }
 /**
  * Hicimos esta parte para verificar si hay dos asientos basado en la sección, fila y número de asiento
