@@ -91,7 +91,6 @@ public class Estadio {
     }
 
 
-
     private void initializeReservations(){
       reservations.clear();
     }
@@ -107,7 +106,8 @@ public class Estadio {
         grandstandList.clear();
     }
 
-    public boolean reserveSeat(Cliente cliente, int seccion, int row, int seatNumber) {
+
+    public boolean reserveSeat(Cliente cliente, int seccion) {
         Set<Asiento> selectedSection = null;
         // Buscar sección seleccionada
         if (seccion == 1) {
@@ -120,24 +120,19 @@ public class Estadio {
             System.out.println("Sección no válida.");
             return false;
         }
-        // Buscar asiento y reservar asiento
+        // Reservar asientos
         for (Asiento asiento : selectedSection) {
-            if (asiento.getRow() == row && asiento.getSeatNumber() == seatNumber) {
-                if (!asiento.getReservado()) {
-                    asiento.setReservado(true);
-                    if (!reservations.containsKey(cliente)) {
-                        reservations.put(cliente, new ArrayList<>());
-                    }
-                    reservations.get(cliente).add(asiento);
-                    System.out.println("Asiento reservado: " + asiento);
-                    return true;
-                } else {
-                    System.out.println("El asiento ya está reservado.");
-                    return false;
+            if (!asiento.getReservado()) {
+                asiento.setReservado(true);
+                if (!reservations.containsKey(cliente)) {
+                    reservations.put(cliente, new ArrayList<>());
                 }
-            }
+                reservations.get(cliente).add(asiento);
+                System.out.println("Asiento reservado: " + asiento);
+                return true;
+            } 
         }
-        System.out.println("El asiento no existe en la sección seleccionada.");
+        System.out.println("No se pudo hacer la reservación");
         return false;
     }
 

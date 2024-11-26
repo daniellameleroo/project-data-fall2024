@@ -1,13 +1,12 @@
 package src;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        boolean cerrar = false;
-
-        while(!cerrar){
+        while(true){
             //Pedimos información al cliente utlizando la clase Scanner
             System.out.print("\nIngrese su nombre: ");
             String nombre = scanner.nextLine();
@@ -20,101 +19,108 @@ public class Main {
 
             Cliente cliente = new Cliente(nombre, email, telefono);
 
-            System.out.print("Cuántos asientos desea reservar? ");
-            Integer numAsientos = scanner.nextInt();
-            scanner.nextLine();
-
             Estadio estadio = new Estadio();
-            Double totalPrice = 0.0;
-            while(numAsientos > 0){
-                // Mostrar asientos disponibles al cliente
-                System.out.print("\nSecciones \n(1)Field Level \n(2)Main Level \n(3)Grandstand Level \nEscriba el número de la sección deseada: ");
-                Integer seccion = scanner.nextInt();
+
+            while(true){
+                //Menu principal
+                System.out.println("\nSeleccione número:\n(1) Reservar Asientos\n(2) Cancelar reservación\n(3) Ver listas de espera\n(4) Mis reservaciones\n(5) Terminar transacción");
+                Integer choice = scanner.nextInt();
                 scanner.nextLine();
 
-                if (seccion == 1) {
-                    System.out.println("Asientos disponibles en Field Level:");
-                    for (Asiento asiento : estadio.getAvailableSeatsField()) {
-                        System.out.println(asiento);
-                    }
-                } else if (seccion == 2) {
-                    System.out.println("Asientos disponibles en Main Level:");
-                    for (Asiento asiento : estadio.getAvailableSeatsMain()) {
-                        System.out.println(asiento);
-                    }
-                } else if (seccion == 3) {
-                    System.out.println("Asientos disponibles en Grandstand Level:");
-                    for (Asiento asiento : estadio.getAvailableSeatsGrandstand()) {
-                        System.out.println(asiento);
-                    }
-                } else {
-                    System.out.println("Sección no existe");
-                }
+                //Reservar asientos
+                if(choice == 1){
+                    //Mostar secciones disponibles y el costo
+                    System.out.println("\n(1) Field Level\n  Costo: $300\n  Asientos Disponibles: " + estadio.getAvailableSeatsField().size() + "\n(2) Main Level\n  Costo: $120\n  Asientos Disponibles: " + estadio.getAvailableSeatsMain().size() + "\n(3) Grandstand Level\n  Costo: $45\n  Asientos Disponibles: " + estadio.getAvailableSeatsGrandstand().size());
+                    //Si no hay asientos disponibles, dar opción a lista de espera
+                    if(estadio.getAvailableSeatsField().isEmpty()){
+                        System.out.println("Desea entrar a la lista de espera para Field level? (si/no) ");
+                        String espera = scanner.nextLine();
+                        if(espera.equals("si")){
+                            estadio.addToWaitingList(estadio.getFieldList(), cliente);
+                        }
 
-                // Si no hay asientos disponibles, dar opción a lista de espera
-                if(estadio.getAvailableSeatsField().isEmpty()){
-                    System.out.println("Quiere entar a la lista de espera? (si/no) ");
-                    String espera = scanner.nextLine();
-                    if(espera.equals("si")){
-                        estadio.addToWaitingList(estadio.getFieldList(), cliente);
                     }
-                    else{
-                        continue;
+                    if(estadio.getAvailableSeatsMain().isEmpty()){
+                        System.out.println("Desea entrar a la lista de espera para Main Level? (si/no) ");
+                        String espera = scanner.nextLine();
+                        if(espera.equals("si")){
+                            estadio.addToWaitingList(estadio.getMainList(), cliente);
+                        }
                     }
+                    if(estadio.getAvailableSeatsGrandstand().isEmpty()){
+                        System.out.println("Desea entrar a la lista de espera para Grandstand Level? (si/no) ");
+                        String espera = scanner.nextLine();
+                        if(espera.equals("si")){
+                            estadio.addToWaitingList(estadio.getGrandstandList(), cliente);
+                    }
+                    }
+                    //Verificar que la cantidad de asientos está disponible
+                    System.out.println("\nSeleccione número de sección deseada: ");
+                    Integer seccion = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Cuántos asientos desea? ");
+                    Integer numAsientos = scanner.nextInt();
+                    scanner.nextLine();
+                    //Reservar los asientos
+                    double totalPrice = 0;
+                    if(seccion == 1 && numAsientos <= estadio.getAvailableSeatsField().size()){
+                        totalPrice = numAsientos * 300;
+                        System.out.println("Costo total: " + totalPrice);
+                        for(int i = 0; i < numAsientos; i++){
+                            estadio.reserveSeat(cliente, seccion);
+                        }
+                    }
+                    else if(seccion == 2 && numAsientos <= estadio.getAvailableSeatsMain().size()){
+                        totalPrice = numAsientos * 120;
+                        System.out.println("Costo total: " + totalPrice);
+                        for(int i = 0; i < numAsientos; i++){
+                            estadio.reserveSeat(cliente, seccion);
+                        }
+                    }
+                    else if(seccion == 3 && numAsientos <= estadio.getAvailableSeatsGrandstand().size()){
+                        totalPrice = numAsientos * 45;
+                        System.out.println("Costo total: " + totalPrice);
+                        for(int i = 0; i < numAsientos; i++){
+                            estadio.reserveSeat(cliente, seccion);
+                        }
+                    }
+                    System.out.println("Asientos reservados con éxito!");
                 }
-                if(estadio.getAvailableSeatsMain().isEmpty()){
-                    System.out.println("Quiere entar a la lista de espera? (si/no) ");
-                    String espera = scanner.nextLine();
-                    if(espera.equals("si")){
-                        estadio.addToWaitingList(estadio.getMainList(), cliente);
-                    }
-                    else{
-                        continue;
-                    }
+                else if(choice == 2){
+                    // cancelar reservacion
                 }
-                if(estadio.getAvailableSeatsGrandstand().isEmpty()){
-                    System.out.println("Quiere entar a la lista de espera? (si/no) ");
-                    String espera = scanner.nextLine();
-                    if(espera.equals("si")){
-                        estadio.addToWaitingList(estadio.getGrandstandList(), cliente);
-                    }
-                    else{
-                        continue;
-                    }
+                else if(choice == 3){
+                    System.out.println("\nLista de espera para Field Level:\n" + estadio.getFieldList());
+                    System.out.println("\nLista de espera para Main Level:\n" + estadio.getMainList());
+                    System.out.println("\nLista de espera para Grandstand Level:\n" + estadio.getGrandstandList());
                 }
+                else if(choice == 4){
+                    //Asientos reservados por el cliente
+                    List<Asiento> clientReservations = estadio.getReservations().get(cliente);
 
-                // Permitir al cliente seleccionar asientos
-                System.out.println("Seleccione la fila (row): ");
-                int selectedRow = scanner.nextInt();
-                System.out.println("Seleccione el número de asiento (seat): ");
-                int selectedSeat = scanner.nextInt();
-                // Reservar asientos
-                boolean successful = estadio.reserveSeat(cliente, seccion, selectedRow, selectedSeat);
-                if (successful) {
-                    if(seccion == 1){
-                        totalPrice += 300.0;
-                    }else if(seccion == 2){
-                        totalPrice += 120.0;
+                    if (clientReservations == null || clientReservations.isEmpty()) {
+                        System.out.println("\nNo tiene reservaciones actualmente.");
+                    } else {
+                        System.out.println("\nSus reservaciones:");
+                        for (Asiento asiento : clientReservations) {
+                            System.out.println(" " + asiento);
+                        }
                     }
-                    else if(seccion == 3){
-                        totalPrice += 45.0;
-                    }
-                    numAsientos -= 1;
+                }
+                else if(choice == 5){
+                    break;
+                }
+                else{
+                    throw new IllegalArgumentException("Opción no es válida.");
                 }
             }
-
-            System.out.println("Costo total: " + totalPrice + "\nTransacción completada.\n");
-
-            scanner.nextLine();
-            System.out.println("Cerrar programa? (si/no) ");
-            String terminar = scanner.nextLine();
-            if(terminar.equals("si")){
-                cerrar = true;
+            System.out.print("\nCerrar programa? ");
+            String cerrar = scanner.nextLine();
+            if(cerrar.equals("si")){
+                break;
             }
-            
         }
-
-        scanner.close();
+       scanner.close();
     }
 }
 
