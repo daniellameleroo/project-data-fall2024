@@ -2,9 +2,9 @@ package src;
 import java.util.*;
 
 public class Estadio {
-    private Set<Asiento> avaiableSeatsField;
-    private Set<Asiento> avaiableSeatsMain;
-    private Set<Asiento> avaiableSeatsGrandstand;
+    private Set<Asiento> availableSeatsField;
+    private Set<Asiento> availableSeatsMain;
+    private Set<Asiento> availableSeatsGrandstand;
     private HashMap<Cliente, List<Asiento>> reservations;
     private LinkedList<String> transactionHistory;
     private Stack<String> undoStack;
@@ -17,9 +17,9 @@ public class Estadio {
                 .comparingInt(Asiento::getRow)
                 .thenComparingInt(Asiento::getSeatNumber);
 
-        avaiableSeatsField = new TreeSet<>(asientoComparator);
-        avaiableSeatsMain = new TreeSet<>(asientoComparator);
-        avaiableSeatsGrandstand = new TreeSet<>(asientoComparator);
+        availableSeatsField = new TreeSet<>(asientoComparator);
+        availableSeatsMain = new TreeSet<>(asientoComparator);
+        availableSeatsGrandstand = new TreeSet<>(asientoComparator);
 
         reservations = new HashMap<>();
         transactionHistory = new LinkedList<>();
@@ -37,20 +37,20 @@ public class Estadio {
 
     private void initializeSeats() {
         for (int i = 1; i <= 500; i++) {
-            avaiableSeatsField.add(new Asiento("Field Level", i / 10 + 1, i, 300.0, false));
+            availableSeatsField.add(new Asiento("Field Level", i / 10 + 1, i, 300.0, false));
         }
         for (int i = 1; i <= 1000; i++) {
-            avaiableSeatsMain.add(new Asiento("Main Level", i / 20 + 1, i, 120.0, false));
+            availableSeatsMain.add(new Asiento("Main Level", i / 20 + 1, i, 120.0, false));
         }
         for (int i = 1; i <= 2000; i++) {
-            avaiableSeatsGrandstand.add(new Asiento("Grandstand Level", i / 30 + 1, i, 45.0, false));
+            availableSeatsGrandstand.add(new Asiento("Grandstand Level", i / 30 + 1, i, 45.0, false));
         }
     }
 
     // Getters
     public List<Asiento> getAvailableSeatsField() {
         List<Asiento> availableSeats = new ArrayList<>();
-        for (Asiento asiento : avaiableSeatsField) {
+        for (Asiento asiento : availableSeatsField) {
             if (!asiento.getReservado()) {
                 availableSeats.add(asiento);
             }
@@ -59,7 +59,7 @@ public class Estadio {
     }
     public List<Asiento> getAvailableSeatsMain() {
         List<Asiento> availableSeats = new ArrayList<>();
-        for (Asiento asiento : avaiableSeatsMain) {
+        for (Asiento asiento : availableSeatsMain) {
             if (!asiento.getReservado()) {
                 availableSeats.add(asiento);
             }
@@ -68,7 +68,7 @@ public class Estadio {
     }
     public List<Asiento> getAvailableSeatsGrandstand() {
         List<Asiento> availableSeats = new ArrayList<>();
-        for (Asiento asiento : avaiableSeatsGrandstand) {
+        for (Asiento asiento : availableSeatsGrandstand) {
             if (!asiento.getReservado()) {
                 availableSeats.add(asiento);
             }
@@ -84,6 +84,10 @@ public class Estadio {
     }
     public Queue<Cliente> getGrandstandList(){
         return grandstandList;
+    }
+
+    public Map<Cliente, List<Asiento>> getReservations(){
+        return reservations;
     }
 
 
@@ -107,11 +111,11 @@ public class Estadio {
         Set<Asiento> selectedSection = null;
         // Buscar sección seleccionada
         if (seccion == 1) {
-            selectedSection = avaiableSeatsField;
+            selectedSection = availableSeatsField;
         } else if (seccion == 2) {
-            selectedSection = avaiableSeatsMain;
+            selectedSection = availableSeatsMain;
         } else if (seccion == 3) {
-            selectedSection = avaiableSeatsGrandstand;
+            selectedSection = availableSeatsGrandstand;
         } else {
             System.out.println("Sección no válida.");
             return false;
