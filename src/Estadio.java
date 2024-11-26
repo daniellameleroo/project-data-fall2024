@@ -8,7 +8,9 @@ public class Estadio {
     private HashMap<Cliente, List<Asiento>> reservations;
     private LinkedList<String> transactionHistory;
     private Stack<String> undoStack;
-    private Queue<Cliente> waitingList;
+    private Queue<Cliente> fieldList;
+    private Queue<Cliente> mainList;
+    private Queue<Cliente> grandstandList;
 
     public Estadio() {
         Comparator<Asiento> asientoComparator = Comparator
@@ -22,7 +24,9 @@ public class Estadio {
         reservations = new HashMap<>();
         transactionHistory = new LinkedList<>();
         undoStack = new Stack<>();
-        waitingList = new LinkedList<>();
+        fieldList = new LinkedList<>();
+        mainList = new LinkedList<>();
+        grandstandList = new LinkedList<>();
 
         initializeSeats();
         initializeReservations();
@@ -43,19 +47,47 @@ public class Estadio {
         }
     }
 
-    // Getters para los sets
-    public Set<Asiento> getAvaiableSeatsField() {
-        return avaiableSeatsField;
+    // Getters
+    public List<Asiento> getAvailableSeatsField() {
+        List<Asiento> availableSeats = new ArrayList<>();
+        for (Asiento asiento : avaiableSeatsField) {
+            if (!asiento.getReservado()) {
+                availableSeats.add(asiento);
+            }
+        }
+        return availableSeats;
+    }
+    public List<Asiento> getAvailableSeatsMain() {
+        List<Asiento> availableSeats = new ArrayList<>();
+        for (Asiento asiento : avaiableSeatsMain) {
+            if (!asiento.getReservado()) {
+                availableSeats.add(asiento);
+            }
+        }
+        return availableSeats;
+    }
+    public List<Asiento> getAvailableSeatsGrandstand() {
+        List<Asiento> availableSeats = new ArrayList<>();
+        for (Asiento asiento : avaiableSeatsGrandstand) {
+            if (!asiento.getReservado()) {
+                availableSeats.add(asiento);
+            }
+        }
+        return availableSeats;
     }
 
-    public Set<Asiento> getAvaiableSeatsMain() {
-        return avaiableSeatsMain;
+    public Queue<Cliente> getFieldList(){
+        return fieldList;
+    }
+    public Queue<Cliente> getMainList(){
+        return mainList;
+    }
+    public Queue<Cliente> getGrandstandList(){
+        return grandstandList;
     }
 
-    public Set<Asiento> getAvaiableSeatsGrandstand() {
-        return avaiableSeatsGrandstand;
-    }
-    
+
+
     private void initializeReservations(){
       reservations.clear();
     }
@@ -66,9 +98,48 @@ public class Estadio {
         undoStack.clear();
     }
     private void initializeWaitingList(){
-        waitingList.clear();
-
+        fieldList.clear();
+        mainList.clear();
+        grandstandList.clear();
     }
-  
+
+    public boolean reserveSeat(Cliente cliente, int seccion, int row, int seatNumber) {
+        Set<Asiento> selectedSection = null;
+        // Buscar sección seleccionada
+        if (seccion == 1) {
+            selectedSection = avaiableSeatsField;
+        } else if (seccion == 2) {
+            selectedSection = avaiableSeatsMain;
+        } else if (seccion == 3) {
+            selectedSection = avaiableSeatsGrandstand;
+        } else {
+            System.out.println("Sección no válida.");
+            return false;
+        }
+        // Buscar asiento y reservar asiento
+        for (Asiento asiento : selectedSection) {
+            if (asiento.getRow() == row && asiento.getSeatNumber() == seatNumber) {
+                if (!asiento.getReservado()) {
+                    asiento.setReservado(true);
+                    if (!reservations.containsKey(cliente)) {
+                        reservations.put(cliente, new ArrayList<>());
+                    }
+                    reservations.get(cliente).add(asiento);
+                    System.out.println("Asiento reservado: " + asiento);
+                    return true;
+                } else {
+                    System.out.println("El asiento ya está reservado.");
+                    return false;
+                }
+            }
+        }
+        System.out.println("El asiento no existe en la sección seleccionada.");
+        return false;
+    }
+
+    public void addToWaitingList(Queue<Cliente> list, Cliente cliente){
+        list.add(cliente);
+    }
     
+  
 }

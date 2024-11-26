@@ -64,6 +64,9 @@ public class Asiento {
 public boolean getReservado() {
     return reservado;
 }
+public void setReservado(boolean reservado){
+    this.reservado = reservado;
+}
 /**
  * Al iagual que en Cliente hicimos un string que nos devuelva la representación del Asiento 
  */
