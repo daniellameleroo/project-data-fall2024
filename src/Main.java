@@ -52,40 +52,43 @@ public class Main {
                             estadio.addToWaitingList(estadio.getGrandstandList(), cliente);
                         }
                     }
-                    //Verificar que la cantidad de asientos está disponible
-                    System.out.println("\nSeleccione número de sección deseada: ");
-                    Integer seccion = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Cuántos asientos desea? ");
-                    Integer numAsientos = scanner.nextInt();
-                    scanner.nextLine();
-                    //Reservar los asientos
-                    double totalPrice = 0;
-                    if(seccion == 1 && numAsientos <= estadio.getAvailableSeatsField().size()){
-                        totalPrice = numAsientos * 300;
-                        System.out.println("Costo total: " + totalPrice);
-                        for(int i = 0; i < numAsientos; i++){
-                            estadio.reserveSeat(cliente, seccion);
+                    System.out.println("Desea reservar alguna otra sección? (si/no) ");
+                    String continuar = scanner.nextLine();
+                    if(continuar.equals("si")){
+                        //Verificar que la cantidad de asientos está disponible
+                        System.out.println("\nSeleccione número de sección deseada: ");
+                        Integer seccion = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Cuántos asientos desea? ");
+                        Integer numAsientos = scanner.nextInt();
+                        scanner.nextLine();
+                        //Reservar los asientos
+                        double totalPrice = 0;
+                        if(seccion == 1 && numAsientos <= estadio.getAvailableSeatsField().size()){
+                            totalPrice = numAsientos * 300;
+                            System.out.println("Costo total: " + totalPrice);
+                            for(int i = 0; i < numAsientos; i++){
+                                estadio.reserveSeat(cliente, seccion);
+                            }
+                        }
+                        else if(seccion == 2 && numAsientos <= estadio.getAvailableSeatsMain().size()){
+                            totalPrice = numAsientos * 120;
+                            System.out.println("Costo total: " + totalPrice);
+                            for(int i = 0; i < numAsientos; i++){
+                                estadio.reserveSeat(cliente, seccion);
+                            }
+                        }
+                        else if(seccion == 3 && numAsientos <= estadio.getAvailableSeatsGrandstand().size()){
+                            totalPrice = numAsientos * 45;
+                            System.out.println("Costo total: " + totalPrice);
+                            for(int i = 0; i < numAsientos; i++){
+                                estadio.reserveSeat(cliente, seccion);
+                            }
+                        }
+                        else{
+                            System.out.println("Cantidad de asientos no disponible.");
                         }
                     }
-                    else if(seccion == 2 && numAsientos <= estadio.getAvailableSeatsMain().size()){
-                        totalPrice = numAsientos * 120;
-                        System.out.println("Costo total: " + totalPrice);
-                        for(int i = 0; i < numAsientos; i++){
-                            estadio.reserveSeat(cliente, seccion);
-                        }
-                    }
-                    else if(seccion == 3 && numAsientos <= estadio.getAvailableSeatsGrandstand().size()){
-                        totalPrice = numAsientos * 45;
-                        System.out.println("Costo total: " + totalPrice);
-                        for(int i = 0; i < numAsientos; i++){
-                            estadio.reserveSeat(cliente, seccion);
-                        }
-                    }
-                    else{
-                        System.out.println("Cantidad de asientos no disponible.");
-                    }
-                    System.out.println("Asientos reservados con éxito!");
                 }
                 // Cancelar reservación
                 else if(choice == 2){
