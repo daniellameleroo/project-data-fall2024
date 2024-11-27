@@ -52,9 +52,6 @@ public class Main {
                             estadio.addToWaitingList(estadio.getGrandstandList(), cliente);
                         }
                     }
-                    System.out.println("Desea reservar alguna otra sección? (si/no) ");
-                    String continuar = scanner.nextLine();
-                    if(continuar.equals("si")){
                         //Verificar que la cantidad de asientos está disponible
                         System.out.println("\nSeleccione número de sección deseada: ");
                         Integer seccion = scanner.nextInt();
@@ -88,11 +85,35 @@ public class Main {
                         else{
                             System.out.println("Cantidad de asientos no disponible.");
                         }
-                    }
                 }
                 // Cancelar reservación
                 else if(choice == 2){
                     // logica para cancelar reservacion
+                    List<Asiento> clientReservations = estadio.getReservations().get(cliente);
+                    System.out.println("\nSus reservaciones:");
+                        for (Asiento asiento : clientReservations) {
+                            System.out.println(" " + asiento);
+                        }
+                    System.out.println("Cuantos asientos desea cancelar? ");
+                    Integer numAsientos = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Que seccion?\n(1) Field Level\n(2) Main Level\n(3) Grandsatnd Level");
+                    Integer seccion = scanner.nextInt();
+                    scanner.nextLine();
+                    Integer reservationsList = 0;
+                    for (Asiento asiento : clientReservations) {
+                        if(asiento.getSection() == seccion){
+                            reservationsList +=1;
+                        }
+                    }
+                    if(numAsientos <= clientReservations.size()){
+                        for(int i = 0; i < numAsientos; i++){
+                            estadio.cancelReservation(clientReservations, seccion);
+                        }
+                    }else{
+                        System.out.println("No hay esa cantidad de asientos reservados en la sección: " + seccion);
+                    }
+
                 }
                 // Mostrar historial de transacciones
                 else if(choice == 3){

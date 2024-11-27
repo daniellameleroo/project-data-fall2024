@@ -5,7 +5,7 @@ package src;
  * su sección, fila y su número de asiento
  */
 public class Asiento {
-    private String section; // Representa las secciones: Field Level, Main Level y Grandstand Level 
+    private int section; // Representa las secciones: Field Level, Main Level y Grandstand Level 
     private int row; //Representa las filas 
     private int seatNumber; //Representa el número de asiento
     private double price;
@@ -20,7 +20,7 @@ public class Asiento {
      * @param reservado Estado del asiento
      */
 
-    public Asiento(String section, int row, int seatNumber, double price, boolean reservado) {
+    public Asiento(int section, int row, int seatNumber, double price, boolean reservado) {
         this.section = section;
         this.row = row;
         this.seatNumber = seatNumber;
@@ -32,7 +32,7 @@ public class Asiento {
  * 
  * @return el nombre de la sección
  */
-    public String getSection() {
+    public int getSection() {
         return section;
 
     }
@@ -88,7 +88,7 @@ public void setReservado(boolean reservado){
 
         return row==asiento.row &&
         seatNumber == asiento.seatNumber &&
-        section.equals(asiento.section);
+        section == asiento.section;
     }
 /**
  * Hacemos un Hash Code para el cliente basado en su section, fila y número de asiento asi salva su información. Hash Code me deja identificar los objetos rapidamente y optimiza el trabajo cuando se guarda datos o cuando se sacan datos.
@@ -97,7 +97,7 @@ public void setReservado(boolean reservado){
  */
     @Override
     public int hashCode(){
-        int result = section.hashCode();
+        int result = Integer.hashCode(section);
         result = 31* result + row;
         result = 31 * result + seatNumber;
         return result;

@@ -7,6 +7,7 @@ public class Estadio {
     private Set<Asiento> availableSeatsGrandstand;
     private HashMap<Cliente, List<Asiento>> reservations;
     private Stack<String> undoStack;
+    private Stack<Asiento> canceledSeats;
     private Queue<Cliente> fieldList;
     private Queue<Cliente> mainList;
     private Queue<Cliente> grandstandList;
@@ -24,6 +25,7 @@ public class Estadio {
         reservations = new HashMap<>();
         transactionHistory = new LinkedList<>();
         undoStack = new Stack<>();
+        canceledSeats = new Stack<>();
         fieldList = new LinkedList<>();
         mainList = new LinkedList<>();
         grandstandList = new LinkedList<>();
@@ -37,13 +39,13 @@ public class Estadio {
 
     private void initializeSeats() {
         for (int i = 1; i <= 500; i++) {
-            availableSeatsField.add(new Asiento("Field Level", i / 10 + 1, i, 300.0, false));
+            availableSeatsField.add(new Asiento(1, i / 10 + 1, i, 300.0, false));
         }
         for (int i = 1; i <= 1000; i++) {
-            availableSeatsMain.add(new Asiento("Main Level", i / 20 + 1, i, 120.0, false));
+            availableSeatsMain.add(new Asiento(2, i / 20 + 1, i, 120.0, false));
         }
         for (int i = 1; i <= 2000; i++) {
-            availableSeatsGrandstand.add(new Asiento("Grandstand Level", i / 30 + 1, i, 45.0, false));
+            availableSeatsGrandstand.add(new Asiento(3, i / 30 + 1, i, 45.0, false));
         }
     }
 
@@ -142,6 +144,36 @@ public class Estadio {
         return false;
     }
 
+    public void cancelReservation(List<Asiento> clientReservations, int seccion) {
+        if (clientReservations.isEmpty()) {
+            System.out.println("No hay reservaciones.");
+            return;
+        }
+    
+        boolean canceled = false;
+        for (Asiento asiento : clientReservations) {
+            if (asiento.getSection() == seccion) {
+                asiento.setReservado(false);
+                System.out.println("Se ha cancelado la reserva: " + asiento);
+    
+                String transaction = "Canceló reserva: " + asiento;
+                transactionHistory.add(transaction);
+                
+                clientReservations.remove(asiento);
+    
+                undoStack.push("CANCELACION:" + asiento);
+                canceledSeats.push(asiento);
+                canceled = true;
+                break;
+            }
+        }
+    
+        if (!canceled) {
+            System.out.println("No se encontraron reservaciones en la sección " + seccion + ".");
+        }
+    }
+    
+
     public void addToWaitingList(Queue<Cliente> list, Cliente cliente){
         list.add(cliente);
     }
@@ -154,18 +186,20 @@ public class Estadio {
     
         String lastAction = undoStack.pop();
         String[] actionParts = lastAction.split(":");
+        Asiento lastCanceled = canceledSeats.pop();
     
         if (actionParts[0].equals("RESERVA")) {
             // Deshacer reserva
             Asiento asiento = clientReservations.getLast();
             asiento.setReservado(false);
-            availableSeatsField.add(asiento);
-            clientReservations.remove(clientReservations.size()-1);
+            clientReservations.remove(asiento);
             System.out.println("Se ha deshecho la última reserva: " + asiento);
         } 
         else if (actionParts[0].equals("CANCELACION")) {
             // Deshacer cancelación
-            System.out.println("cancelacion");
+            clientReservations.add(lastCanceled);
+            lastCanceled.setReservado(true);
+            System.out.println("Se ha deshecho la última cancelación: " + lastCanceled);
         }
     }
 
