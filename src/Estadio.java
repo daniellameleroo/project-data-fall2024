@@ -6,11 +6,11 @@ public class Estadio {
     private Set<Asiento> availableSeatsMain;
     private Set<Asiento> availableSeatsGrandstand;
     private HashMap<Cliente, List<Asiento>> reservations;
-    LinkedList<String> transactionHistory;
     private Stack<String> undoStack;
     private Queue<Cliente> fieldList;
     private Queue<Cliente> mainList;
     private Queue<Cliente> grandstandList;
+    LinkedList<String> transactionHistory;
 
     public Estadio() {
         Comparator<Asiento> asientoComparator = Comparator
@@ -168,5 +168,24 @@ public class Estadio {
             System.out.println("cancelacion");
         }
     }
+
+    public void showAllReservations() {
+        if (reservations.isEmpty()) {
+            System.out.println("No hay reservas realizadas.");
+            return;
+        }
+        System.out.println("Reservas realizadas:");
+        for (Map.Entry<Cliente, List<Asiento>> entry : reservations.entrySet()) {
+            Cliente cliente = entry.getKey();
+            List<Asiento> asientos = entry.getValue();
+    
+            System.out.println("Cliente: " + cliente.getNombre());
+            System.out.println("Reservas:");
+            for (Asiento asiento : asientos) {
+                System.out.println(" " + asiento);
+            }
+        }
+    }
+
   
 }

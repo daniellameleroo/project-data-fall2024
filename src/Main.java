@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
+        Estadio estadio = new Estadio();
         Scanner scanner = new Scanner(System.in);
         while(true){
             //Pedimos información al cliente utlizando la clase Scanner
@@ -19,11 +20,9 @@ public class Main {
 
             Cliente cliente = new Cliente(nombre, email, telefono);
 
-            Estadio estadio = new Estadio();
-
             while(true){
                 //Menu principal
-                System.out.println("\nSeleccione número:\n(1) Reservar Asientos\n(2) Cancelar reservación\n(3) Historial de transacciones\n(4) Mis reservaciones\n(5) Deshacer última acción\n(6) Terminar transacción");
+                System.out.println("\nSeleccione número:\n(1) Reservar Asientos\n(2) Cancelar reservación\n(3) Historial de transacciones\n(4) Mis reservaciones\n(5) Deshacer última acción\n(6) Terminar transacción\n(7) Mostar todas las reservas guardadas");
                 Integer choice = scanner.nextInt();
                 scanner.nextLine();
 
@@ -120,6 +119,10 @@ public class Main {
                 // Terminar la transacción
                 else if(choice == 6){
                     break;
+                }
+                // Mostrar todas las reservas
+                else if(choice == 7){
+                    estadio.showAllReservations();
                 }
                 else{
                     throw new IllegalArgumentException("Opción no es válida.");
