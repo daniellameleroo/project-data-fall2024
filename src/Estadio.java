@@ -6,7 +6,7 @@ public class Estadio {
     private Set<Asiento> availableSeatsMain;
     private Set<Asiento> availableSeatsGrandstand;
     private HashMap<Cliente, List<Asiento>> reservations;
-    private LinkedList<String> transactionHistory;
+    LinkedList<String> transactionHistory;
     private Stack<String> undoStack;
     private Queue<Cliente> fieldList;
     private Queue<Cliente> mainList;
@@ -128,6 +128,12 @@ public class Estadio {
                     reservations.put(cliente, new ArrayList<>());
                 }
                 reservations.get(cliente).add(asiento);
+                // Agregar al historial
+                String transaction = "Cliente " + cliente.getNombre() + " reservó asiento: " + asiento;
+                transactionHistory.add(transaction);
+                // Agregar al stack de deshacer la última acción de reservación
+                undoStack.push("RESERVA:" + asiento);
+
                 System.out.println("Asiento reservado: " + asiento);
                 return true;
             } 
@@ -140,5 +146,27 @@ public class Estadio {
         list.add(cliente);
     }
     
+    public void undoLastAction(List<Asiento> clientReservations){
+        if (undoStack.isEmpty()) {
+            System.out.println("No hay acciones para deshacer.");
+            return;
+        }
+    
+        String lastAction = undoStack.pop();
+        String[] actionParts = lastAction.split(":");
+    
+        if (actionParts[0].equals("RESERVA")) {
+            // Deshacer reserva
+            Asiento asiento = clientReservations.getLast();
+            asiento.setReservado(false);
+            availableSeatsField.add(asiento);
+            clientReservations.remove(clientReservations.size()-1);
+            System.out.println("Se ha deshecho la última reserva: " + asiento);
+        } 
+        else if (actionParts[0].equals("CANCELACION")) {
+            // Deshacer cancelación
+            System.out.println("cancelacion");
+        }
+    }
   
 }

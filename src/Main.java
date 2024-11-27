@@ -23,7 +23,7 @@ public class Main {
 
             while(true){
                 //Menu principal
-                System.out.println("\nSeleccione número:\n(1) Reservar Asientos\n(2) Cancelar reservación\n(3) Ver listas de espera\n(4) Mis reservaciones\n(5) Terminar transacción");
+                System.out.println("\nSeleccione número:\n(1) Reservar Asientos\n(2) Cancelar reservación\n(3) Historial de transacciones\n(4) Mis reservaciones\n(5) Deshacer última acción\n(6) Terminar transacción");
                 Integer choice = scanner.nextInt();
                 scanner.nextLine();
 
@@ -38,7 +38,6 @@ public class Main {
                         if(espera.equals("si")){
                             estadio.addToWaitingList(estadio.getFieldList(), cliente);
                         }
-
                     }
                     if(estadio.getAvailableSeatsMain().isEmpty()){
                         System.out.println("Desea entrar a la lista de espera para Main Level? (si/no) ");
@@ -52,7 +51,7 @@ public class Main {
                         String espera = scanner.nextLine();
                         if(espera.equals("si")){
                             estadio.addToWaitingList(estadio.getGrandstandList(), cliente);
-                    }
+                        }
                     }
                     //Verificar que la cantidad de asientos está disponible
                     System.out.println("\nSeleccione número de sección deseada: ");
@@ -84,18 +83,24 @@ public class Main {
                             estadio.reserveSeat(cliente, seccion);
                         }
                     }
+                    else{
+                        System.out.println("Cantidad de asientos no disponible.");
+                    }
                     System.out.println("Asientos reservados con éxito!");
                 }
+                // Cancelar reservación
                 else if(choice == 2){
-                    // cancelar reservacion
+                    // logica para cancelar reservacion
                 }
+                // Mostrar historial de transacciones
                 else if(choice == 3){
-                    System.out.println("\nLista de espera para Field Level:\n" + estadio.getFieldList());
-                    System.out.println("\nLista de espera para Main Level:\n" + estadio.getMainList());
-                    System.out.println("\nLista de espera para Grandstand Level:\n" + estadio.getGrandstandList());
+                    System.out.println("\nHistorial de transacciones:");
+                for (String transaction : estadio.transactionHistory) {
+                    System.out.println(transaction);
                 }
+                }
+                // Mostrar los asientos reservados por el cliente
                 else if(choice == 4){
-                    //Asientos reservados por el cliente
                     List<Asiento> clientReservations = estadio.getReservations().get(cliente);
 
                     if (clientReservations == null || clientReservations.isEmpty()) {
@@ -107,7 +112,13 @@ public class Main {
                         }
                     }
                 }
+                // Deshacer última acción
                 else if(choice == 5){
+                    List<Asiento> clientReservations = estadio.getReservations().get(cliente);
+                    estadio.undoLastAction(clientReservations);
+                }
+                // Terminar la transacción
+                else if(choice == 6){
                     break;
                 }
                 else{
