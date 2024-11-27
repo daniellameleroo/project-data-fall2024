@@ -22,7 +22,7 @@ public class Main {
 
             while(true){
                 //Menu principal
-                System.out.println("\nSeleccione número:\n(1) Reservar Asientos\n(2) Cancelar reservación\n(3) Historial de transacciones\n(4) Mis reservaciones\n(5) Deshacer última acción\n(6) Terminar transacción\n(7) Mostar todas las reservas guardadas");
+                System.out.println("\nSeleccione número:\n(1) Reservar Asientos\n(2) Cancelar reservación\n(3) Historial de transacciones\n(4) Mis reservaciones\n(5) Deshacer última acción\n(6) Terminar transacción\n(7) Mostar todas las reservas guardadas\n(8) Ver listas de espera");
                 Integer choice = scanner.nextInt();
                 scanner.nextLine();
 
@@ -148,11 +148,17 @@ public class Main {
                 else if(choice == 7){
                     estadio.showAllReservations();
                 }
+                // Mostrar listas de espera
+                else if(choice == 8){
+                    System.out.println("Field Level: " + estadio.getFieldList());
+                    System.out.println("Main Level: " + estadio.getMainList());
+                    System.out.println("Grandstand Level: " + estadio.getGrandstandList());
+                }
                 else{
                     throw new IllegalArgumentException("Opción no es válida.");
                 }
             }
-            System.out.print("\nCerrar programa? ");
+            System.out.print("\nReinciar programa? (si/no)\nToda la información será eliminada.");
             String cerrar = scanner.nextLine();
             if(cerrar.equals("si")){
                 break;

@@ -176,6 +176,7 @@ public class Estadio {
 
     public void addToWaitingList(Queue<Cliente> list, Cliente cliente){
         list.add(cliente);
+        System.out.println("Está en lista de espera.");
     }
     
     public void undoLastAction(List<Asiento> clientReservations){
@@ -186,7 +187,6 @@ public class Estadio {
     
         String lastAction = undoStack.pop();
         String[] actionParts = lastAction.split(":");
-        Asiento lastCanceled = canceledSeats.pop();
     
         if (actionParts[0].equals("RESERVA")) {
             // Deshacer reserva
@@ -197,9 +197,14 @@ public class Estadio {
         } 
         else if (actionParts[0].equals("CANCELACION")) {
             // Deshacer cancelación
-            clientReservations.add(lastCanceled);
-            lastCanceled.setReservado(true);
-            System.out.println("Se ha deshecho la última cancelación: " + lastCanceled);
+            if (!canceledSeats.isEmpty()) {
+                Asiento lastCanceled = canceledSeats.pop();
+                lastCanceled.setReservado(true);
+                clientReservations.add(lastCanceled);
+                System.out.println("Se ha deshecho la última cancelación: " + lastCanceled);
+            } else {
+                System.out.println("No hay cancelaciones para deshacer.");
+            }
         }
     }
 
