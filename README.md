@@ -92,11 +92,11 @@ Class Overview
     - La clase Asiento representa un asiento en el Estadio. Esta clase tiene detalle del asiento como la sección, fila, el número de asiento, precio y estatus de reservación. También provee métodos para manejar los atributos del asiento. 
 
 Atributos:
-    - section(int): Las secciones del estadio donde el asiento esta localizado. Esto son: Field Level, Main Level y Grandstand Level
-     - row(int): El número de la fila de la sección indicada. 
-     - seatNumber(int): El número de asiento especifica de la fila. 
-     - price(double): El precio del asiento basado en su sección.
-     - reservado(boolean): Una señal que indica si el asiento esta reservado(true) o no(false). 
+        - section(int): Las secciones del estadio donde el asiento esta localizado. Esto son: Field Level, Main Level y Grandstand Level
+        - row(int): El número de la fila de la sección indicada. 
+        - seatNumber(int): El número de asiento especifica de la fila. 
+        - price(double): El precio del asiento basado en su sección.
+        - reservado(boolean): Una señal que indica si el asiento esta reservado(true) o no(false). 
 
 Métodos:
     -Constructor: Inicializa Asiento como un objeto con sus secciones, fila, número de asiento, precio y su estatus de reservación. 
@@ -107,7 +107,7 @@ Métodos:
         - getPrice(): Devuelve el precio del asiento.
         - getReservado(): Devuelve si el siento esta reservado. 
 
-    -Usamos el método equals() para verificar si dos asientos son iguales basados en sus secciones, fila y número de asiento. Esto asegura que no dos sillas con propiedades identicas puedan existir en el sistema, la cual es esencial para el manejo de asientos únicos.
+    -Método equals(): Para verificar si dos asientos son iguales basados en sus secciones, fila y número de asiento. Esto asegura que no dos sillas con propiedades identicas puedan existir en el sistema, la cual es esencial para el manejo de asientos únicos.
     
     -hashCode(): Este método lo usamos basado en su sección, fila y número de asiento para que sea eficientemente guardados y sacados de colecións como HashMap y HashSet. 
         -La decisión sobre el 31: El multiple del 31 es porque es un número primo impar, la cual distribuye HashCode más uniforme y minimiza las colisiones Hash. 
