@@ -6,10 +6,10 @@ Integrantes:
 2. Aliana Santiago Morales  email aliana.santiago1@upr.edu
 3. Daniella Melero Pereira   email: daniella.melero@upr.edu
 
-Project Overview
+Project Overview:
  Este proyecto implementa un sistema de Reservación de un Estadio, diseñado para manejar reservación de asientos, cancelaciones y una lista de espera para un estadio de multiples secciones: Field Level, Main Level y Grandstand Level. El sistema maneja las reservaciones eficientemente, admite operaciones de deshacer para transacciones y mantiene un historial de actividades. 
 
-Lógica y Funcionalidad de la Clase Estadio
+Lógica y Funcionalidad de la Clase Estadio:
 
 1. Funcionalidades Principales
     -Inicialización de Asiento:
