@@ -15,6 +15,15 @@ public class Cliente {
      */
 
     public Cliente(String nombre, String email, String telefono){
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Tienes que ingresar un nombre.");
+        }
+        if (email == null || !email.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+            throw new IllegalArgumentException("Email no válido: " + email);
+        }
+        if (telefono == null || telefono.trim().isEmpty()) {
+            throw new IllegalArgumentException("Tienes que ingresar un numero de telefono valido.");
+        }
         this.nombre = nombre;
         this.email = email;
         this.telefono = telefono;

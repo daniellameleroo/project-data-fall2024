@@ -186,6 +186,9 @@ public class Estadio {
     public boolean reserveSeat(Cliente cliente, int seccion) {
         Set<Asiento> selectedSection = null;
         // Buscar sección seleccionada
+        if(seccion<1 || seccion>3){
+            throw new IllegalArgumentException("Seccion no valida.");
+        }
         if (seccion == 1) {
             selectedSection = availableSeatsField;
         } else if (seccion == 2) {
@@ -224,8 +227,7 @@ public class Estadio {
  */
     public void cancelReservation(List<Asiento> clientReservations, int seccion) {
         if (clientReservations.isEmpty()) {
-            System.out.println("No hay reservaciones.");
-            return;
+            throw new IllegalArgumentException("El cliente no tiene reservaciones activas.");
         }
     
         boolean canceled = false;
@@ -253,12 +255,13 @@ public class Estadio {
                 Queue<Cliente> waitingList = getWaitingList(seccion);
 
                 //verificar si hay clientes en la lista de espera
-                if(!waitingList.isEmpty()){
-                    Cliente nextClient = waitingList.poll();
-                    //reserva el asiento cancelado para el cliente de la lista de espera
-                    reserveSeat(nextClient,seccion);
-                    System.out.println("Asiento reasignado automaticamente al cliente en lista de espera: " + nextClient.getNombre());
+                if (waitingList == null || waitingList.isEmpty()) {
+                    throw new IllegalArgumentException("No hay clientes en la lista de espera para la sección " + seccion);
                 }
+                
+                Cliente nextClient = waitingList.poll();
+                reserveSeat(nextClient, seccion);
+                System.out.println("Asiento reasignado automáticamente al cliente en lista de espera: " + nextClient.getNombre());
                 break;
             }
         }

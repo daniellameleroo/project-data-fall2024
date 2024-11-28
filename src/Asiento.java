@@ -1,5 +1,6 @@
 package src;
 
+
 /**
  * Se crea la Clase Asiento para representar un asiento de la Clase Estadio con
  * su sección, fila y su número de asiento
@@ -21,6 +22,10 @@ public class Asiento {
      */
 
     public Asiento(int section, int row, int seatNumber, double price, boolean reservado) {
+        if (section <= 0) throw new IllegalArgumentException("La sección debe ser un número positivo.");
+        if (row <= 0) throw new IllegalArgumentException("La fila debe ser un número positivo.");
+        if (seatNumber <= 0) throw new IllegalArgumentException("El número de asiento debe ser un número positivo.");
+        if (price < 0) throw new IllegalArgumentException("El precio no puede ser negativo.");
         this.section = section;
         this.row = row;
         this.seatNumber = seatNumber;
@@ -65,7 +70,13 @@ public boolean getReservado() {
     return reservado;
 }
 public void setReservado(boolean reservado){
-    this.reservado = reservado;
+    if(this.reservado&&reservado){
+        throw new IllegalArgumentException("El asiento ya esta reservado: " + toString());
+    }
+    if(!this.reservado&&!reservado){
+        throw new IllegalArgumentException("El asiento no estaba reservado: " + toString());
+    }
+    this.reservado=reservado;
 }
 /**
  * Al iagual que en Cliente hicimos un string que nos devuelva la representación del Asiento 
