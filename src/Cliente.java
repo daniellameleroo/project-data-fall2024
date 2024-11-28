@@ -50,7 +50,7 @@ public class Cliente {
         return "Nombre: " + nombre + ", Email: " + email + ", Teléfono: " + telefono; 
     }
     /**
-     * Hay que vereificar que no se tenga dos clientes iguales basado en su email
+     * Hay que verificar que no se tenga dos clientes iguales basado en su email
      * @param obj lo usamos de objeto para compararlo
      * @return True usamos un booleano para devolver si hay dos clientes con el mismo email sino pues sería False
      */
@@ -61,14 +61,14 @@ public class Cliente {
 
         Cliente cliente=(Cliente) obj;
 
-        return email.equals(cliente.email);
+        return email != null && email.equals(cliente.email);
     }
 /** 
- * Creamos un HashCode para el cliente con su email para guardar
+ * Creamos un HashCode para el cliente con su email para guardar.
  * @return Hash Code
  */
     @Override
     public int hashCode(){
-        return email.hashCode();
+        return email != null ? email.hashCode() : 0;
     }
 }
