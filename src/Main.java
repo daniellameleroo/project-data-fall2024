@@ -157,7 +157,7 @@ public class Main {
                     throw new IllegalArgumentException("Opción no es válida.");
                 }
             }
-            System.out.print("\nReinciar programa? (si/no)\nToda la información será eliminada.");
+            System.out.print("\nReinciar programa?\n(si) Toda la información será eliminada.\n(no) Continuar haciendo transacciones.");
             String cerrar = scanner.nextLine();
             if(cerrar.equals("si")){
                 break;
