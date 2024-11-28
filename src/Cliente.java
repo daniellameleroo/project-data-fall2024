@@ -1,31 +1,83 @@
 package src;
-
+/*
+* Representa un cliente haciendo reservación para el estadio 
+ */
 public class Cliente {
-    private String nombre;
-    private String email;
-    private String telefono;
+    private String nombre; //Nombre del cliente
+    private String email; // Email del cliente
+    private String telefono; //Teléfono del cliente
+
+    /**
+     * Constructor para crear a un nuevo cliente
+     * @param nombre El nombre del cliente
+     * @param email El email del cliente
+     * @param telefono El teléfono del cliente
+     */
 
     public Cliente(String nombre, String email, String telefono){
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Tienes que ingresar un nombre.");
+        }
+        if (email == null || !email.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+            throw new IllegalArgumentException("Email no válido: " + email);
+        }
+        if (telefono == null || telefono.trim().isEmpty()) {
+            throw new IllegalArgumentException("Tienes que ingresar un numero de telefono valido.");
+        }
         this.nombre = nombre;
         this.email = email;
         this.telefono = telefono;
     }
-
+/** 
+ * Coje el nombre del cliente 
+ * @return el nombre del cliente
+ */
     public String getNombre(){
         return nombre;
     }
-
+/**
+ * Coje el email del cliente
+ * @return el email del cliente 
+ */
     public String getEmail(){
         return email;
     }
-
-    public String geTelefono(){
+/** 
+ * Coje el teléfono del cliente
+ * @return teléfono del cliente
+ */
+    public String getTelefono(){
         return telefono;
     }
-
+/** 
+ * Provee una representación de string del cliente
+ * 
+ * @return Un string en formato "Nombre: <nombre> Email: <email> Teléfono: <teléfono> 
+ */
     @Override
     public String toString(){
         return "Nombre: " + nombre + ", Email: " + email + ", Teléfono: " + telefono; 
     }
-    
+    /**
+     * Hay que verificar que no se tenga dos clientes iguales basado en su email
+     * @param obj lo usamos de objeto para compararlo
+     * @return True usamos un booleano para devolver si hay dos clientes con el mismo email sino pues sería False
+     */
+    @Override 
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(obj == null || getClass() != obj.getClass()) return false;
+
+        Cliente cliente=(Cliente) obj;
+
+        return email != null && email.equals(cliente.email);
+    }
+/** 
+ * Creamos un HashCode para el cliente con su email para guardar.
+ * @return Hash Code
+ */
+    @Override
+    public int hashCode(){
+        return email != null ? email.hashCode() : 0;
+    }
 }
