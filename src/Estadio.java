@@ -229,25 +229,56 @@ public class Estadio {
         }
     
         boolean canceled = false;
-        for (Asiento asiento : clientReservations) {
-            if (asiento.getSection() == seccion) {
-                asiento.setReservado(false);
+        Iterator<Asiento> iterator = clientReservations.iterator(); 
+
+        while (iterator.hasNext()){
+            Asiento asiento = iterator.next();
+            //busca un asiento que corresponda a la seccion especificada
+            if(asiento.getSection() == seccion){
+                asiento.setReservado(false); //libera el asiento
+                iterator.remove(); //elimina la reservacion del cliente
                 System.out.println("Se ha cancelado la reserva: " + asiento);
-                //Registramos la cancelación
-                String transaction = "Canceló reserva: " + asiento;
+
+                String transaction = "Cancelo reserva: " + asiento;
                 transactionHistory.add(transaction);
-                
-                clientReservations.remove(asiento);
-                // Agregar al stack de deshacer la última acción
-                undoStack.push("CANCELACION:" + asiento);
+
+                //deshacer la ultima accion
+                undoStack.push("CANCELACION: " + asiento);
+
+                //almacenar el asiento cancelado para futuras resignaciones si fuera necesario
                 canceledSeats.push(asiento);
-                canceled = true;
+                canceled=true;
+
+                //obtener la lista de espera de la seccion correspondiente
+                Queue<Cliente> waitingList = getWaitingList(seccion);
+
+                //verificar si hay clientes en la lista de espera
+                if(!waitingList.isEmpty()){
+                    Cliente nextClient = waitingList.poll();
+                    //reserva el asiento cancelado para el cliente de la lista de espera
+                    reserveSeat(nextClient,seccion);
+                    System.out.println("Asiento reasignado automaticamente al cliente en lista de espera: " + nextClient.getNombre());
+                }
                 break;
             }
         }
     
         if (!canceled) {
             System.out.println("No se encontraron reservaciones en la sección " + seccion + ".");
+        }
+    }
+
+    //metodo auxiliar para obtener la lista de espera de una seccion en especifico
+    private Queue<Cliente> getWaitingList(int seccion){
+        switch(seccion){
+            case 1:
+                return fieldList; //lista de espera para field list
+            case 2:
+                return mainList; //lista de espera para main list
+            case 3:
+                return grandstandList; //lista de espera de grandstan list
+            default:
+                return null; //si la seccion no es valida, se devuelve null
         }
     }
     /**
@@ -277,22 +308,28 @@ public class Estadio {
         //Determinar si fue una reserva o cancelación
         if (actionParts[0].equals("RESERVA")) {
             // Deshacer reserva
-            Asiento asiento = clientReservations.getLast();
+            Asiento asiento = clientReservations.get(clientReservations.size()-1);
             asiento.setReservado(false);
             clientReservations.remove(asiento);
             System.out.println("Se ha deshecho la última reserva: " + asiento);
         } 
         else if (actionParts[0].equals("CANCELACION")) {
             // Deshacer cancelación
-            if (!canceledSeats.isEmpty()) {
-                // Restaurar el último asiento cancelado
-                Asiento lastCanceled = canceledSeats.pop();
-                lastCanceled.setReservado(true);
-                clientReservations.add(lastCanceled);
-                System.out.println("Se ha deshecho la última cancelación: " + lastCanceled);
-            } else {
+            if(canceledSeats.isEmpty()){
                 System.out.println("No hay cancelaciones para deshacer.");
+                return;
             }
+            Asiento last_Canceled=canceledSeats.pop();
+            if(clientReservations!=null){
+                clientReservations.add(last_Canceled); //reagregar el asiento a las reservas del cliente
+            }else{
+                clientReservations=new ArrayList<>();
+                clientReservations.add(last_Canceled);
+            }
+            last_Canceled.setReservado(true);
+            System.out.println("Se ha deshecho la ultima cancelacion: " + last_Canceled);
+        }else{
+            System.out.println("Accion no reconocida: " + lastAction);
         }
     }
 /**
