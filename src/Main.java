@@ -88,7 +88,6 @@ public class Main {
                 }
                 // Cancelar reservación
                 else if(choice == 2){
-                    // logica para cancelar reservacion
                     List<Asiento> clientReservations = estadio.getReservations().get(cliente);
                     System.out.println("\nSus reservaciones:");
                         for (Asiento asiento : clientReservations) {

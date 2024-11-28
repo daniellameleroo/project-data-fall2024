@@ -15,13 +15,13 @@ public class Estadio {
     //Mapa que almacena las reservas realizadas por los clientes
     private HashMap<Cliente, List<Asiento>> reservations;
 
-    //Stacks para realizar el deshacer de reservaciones
+    //Stack para guardar la última acción realizada
     private Stack<String> undoStack;
 
     //Stack para almacenar los asientos cancelados recientemente
     private Stack<Asiento> canceledSeats;
 
-    //Fila de esperas para cada sección(waiting list)
+    //Filas de espera para cada sección(waiting list)
     private Queue<Cliente> fieldList;
     private Queue<Cliente> mainList;
     private Queue<Cliente> grandstandList;
@@ -29,7 +29,7 @@ public class Estadio {
     //Lista que almacena el historial de transacciones
     LinkedList<String> transactionHistory;
 /**
- * Creamos un constructor de la clase Estadio que inicializa los asientos, reservaciones, historial de transacciones, filas y listas de esperas. 
+ * Creamos un constructor de la clase Estadio que inicializa los asientos, reservaciones, historial de transacciones, filas y listas de espera. 
  */
     public Estadio() {
         //Definimos un comparador(comparator) para organizar las asientos por filas y por número de asiento
@@ -42,10 +42,10 @@ public class Estadio {
         availableSeatsMain = new TreeSet<>(asientoComparator); //Asientos en la sección del Main Level
         availableSeatsGrandstand = new TreeSet<>(asientoComparator); //Asientos en la sección del GrandStand Level
 
-        //Inicializamos un HashMap para almacenar las resevaciones y map los clientes en sus asientos reservadas 
+        //Inicializamos un HashMap para almacenar las resevaciones y los clientes en sus asientos reservadas 
         reservations = new HashMap<>();
 
-        //Inicializamos a LinkedList para realizar un seguimiento del historial de transacciones
+        //Inicializamos un LinkedList para realizar un seguimiento del historial de transacciones
         transactionHistory = new LinkedList<>();
 
         //Inicializar un Stack para mantener un registro de acciones para la funcionalidad de deshacer(undo)
@@ -207,7 +207,7 @@ public class Estadio {
                 // Agregar al historial de transacción
                 String transaction = "Cliente " + cliente.getNombre() + " reservó asiento: " + asiento;
                 transactionHistory.add(transaction);
-                // Agregar al stack de deshacer la última acción de reservación
+                // Agregar al stack de deshacer la última acción
                 undoStack.push("RESERVA:" + asiento);
 
                 System.out.println("Asiento reservado: " + asiento);
@@ -238,7 +238,7 @@ public class Estadio {
                 transactionHistory.add(transaction);
                 
                 clientReservations.remove(asiento);
-    
+                // Agregar al stack de deshacer la última acción
                 undoStack.push("CANCELACION:" + asiento);
                 canceledSeats.push(asiento);
                 canceled = true;
