@@ -3,11 +3,11 @@
 
 Integrantes:
 1. Vianca Rodriguez Morales email: vianca.rodriguez5@upr.edu
-2. Aliana Santiago Morales  email aliana.santiago1@upr.edu
+2. Aliana Santiago Morales  email: aliana.santiago1@upr.edu
 3. Daniella Melero Pereira   email: daniella.melero@upr.edu
 
 Project Overview:
- Este proyecto implementa un sistema de Reservación de un Estadio, diseñado para manejar reservación de asientos, cancelaciones y una lista de espera para un estadio de multiples secciones: Field Level, Main Level y Grandstand Level. El sistema maneja las reservaciones eficientemente, admite operaciones de deshacer para transacciones y mantiene un historial de actividades. 
+ Este proyecto implementa un sistema de Reservación de un Estadio, diseñado para manejar reservación de asientos, cancelaciones y una lista de espera para un estadio de múltiples secciones: Field Level, Main Level y Grandstand Level. El sistema maneja las reservaciones eficientemente, admite operaciones de deshacer para transacciones y mantiene un historial de actividades. 
 
 Lógica y Funcionalidad de la Clase Estadio:
 
@@ -17,17 +17,17 @@ Lógica y Funcionalidad de la Clase Estadio:
 
     -Reservación:
         -Los clientes pueden reservar los asientos en secciones preferibles. El sistema verifica la disponibilidad y actualiza el estatus de los asientos reservados. 
-        -Cada reservación del cliente estan rastreado en un Map(Map<Cliente>, List<Asiento>).
+        -Cada reservación del cliente está rastreado en un Map(Map<Cliente>, List<Asiento>).
 
     -Cancelación: 
-        -Un cliente puede cancelar reservación, liberando asietnos y lo remueve de la lista de reservación del cliente.
+        -Un cliente puede cancelar reservación, liberando asientos y lo remueve de la lista de reservación del cliente.
         -Los asientos cancelados son almacenados en un Stack que permite deshacer cancelaciones si es necesario
 
     -Operación deshacer(Undo):
         -Un Stack(undoStack) registra las transacciones, permite la reversión de reservas o cancelaciones.
     
     -Lista de Espera:
-        -Cuando una sección esta completamente llena, los clientes son añadidos a una lista de espera (Queue<Cliente>), asi garantiza en la asignación de asientos cuando haya asientos disponibles o cancelación.
+        -Cuando una sección esta completamente llena, los clientes son añadidos a una lista de espera (Queue<Cliente>), asi garantiza en la asignación de asientos cuando hayan asientos disponibles o cancelación.
 
 2. Estructura de Datos Usados
     -TreeSet: Para mantener y recuperar listas ordenadas de asientos disponibles.
@@ -36,11 +36,11 @@ Lógica y Funcionalidad de la Clase Estadio:
     -Queue: Para manejar la lista de espera en una manera "First In, First Out".
 
 3. Diseño Object-Oriented
-    Este proyecto sigue un diseño usando encapsulación y abstración:
+    Este proyecto sigue un diseño usando encapsulación y abstracción:
     -Clases:
         -Estadio: Maneja las secciones del estadio, la disponibilidad de asientos, las reservaciones y las transacciones. 
         -Asiento: Representa el Asiento con atributos como fila y número de asiento. 
-        -Cliente: Representa el cliente oon atributo como nombre, email y número de teléfono y un cliente usando el sistema. 
+        -Cliente: Representa el cliente con atributos como nombre, email y número de teléfono y un cliente usando el sistema. 
 
 Resultados
 1. Reservación y Cancelación exitosa:
@@ -50,7 +50,7 @@ Resultados
     -Los usuarios pueden deshacer la útilma transacción(reservación o cancelación) sin problema, asegurando flexibilidad. 
 
 3. Manejo eficiente de Lista de Espera:
-    -Los clientes son añadidos en la lista de espera cuando no hay asiento y son notificado cuando hay asientos disponibles. 
+    -Los clientes son añadidos en la lista de espera cuando no hay asiento y son notificados cuando hay asientos disponibles. 
 
 4. El desempeño:
     -El uso de TreeSet y HashMap garantiza búsquedas y actualizaciones eficientes para reservas y disponibilidad de asientos.
@@ -60,7 +60,7 @@ Resultados
     - Corre el programa en el terminal para inicializar el estadio y sus secciones. Pondrá su nombre, email y número de teléfono. Los asientos y la estructura de dato esta pre-configurado. Aparecerá un menu donde podrán hacer su seleción. 
 
 2. Hacer una reservación:
-    -Los clientes pueden especificar la sección y pedir asientos. Pueden escoger en el menu[1] para hacer reservación. Los asientos son automáticamente confirmado o añadido a la lista de espera si no hay disponibilidad.  
+    -Los clientes pueden especificar la sección y pedir asientos. Pueden escoger en el menu[1] para hacer reservación. Los asientos son automáticamente confirmados o añadidos a la lista de espera si no hay disponibilidad.  
 
 3. Cancelación de reservación:
     -Pueden marcar el número del menu[2] para hacer una cancelación.
@@ -89,7 +89,7 @@ Métodos:
 Lógica y funcionalidad de la Clase Asiento
 
 Class Overview
-    - La clase Asiento representa un asiento en el Estadio. Esta clase tiene detalle del asiento como la sección, fila, el número de asiento, precio y estatus de reservación. También provee métodos para manejar los atributos del asiento. 
+    - La clase Asiento representa un asiento en el Estadio. Esta clase tiene detalles del asiento como la sección, fila, el número de asiento, precio y estatus de reservación. También provee métodos para manejar los atributos del asiento. 
 
 Atributos:
         - section(int): Las secciones del estadio donde el asiento esta localizado. Esto son: Field Level, Main Level y Grandstand Level
@@ -107,8 +107,8 @@ Métodos:
         - getPrice(): Devuelve el precio del asiento.
         - getReservado(): Devuelve si el siento esta reservado. 
 
-    -Método equals(): Para verificar si dos asientos son iguales basados en sus secciones, fila y número de asiento. Esto asegura que no dos sillas con propiedades identicas puedan existir en el sistema, la cual es esencial para el manejo de asientos únicos.
+    -Método equals(): Para verificar si dos asientos son iguales basados en sus secciones, fila y número de asiento. Esto asegura que no dos sillas con propiedades idénticas puedan existir en el sistema, la cual es esencial para el manejo de asientos únicos.
     
-    -hashCode(): Este método lo usamos basado en su sección, fila y número de asiento para que sea eficientemente guardados y sacados de colecións como HashMap y HashSet. 
+    -hashCode(): Este método lo usamos basado en su sección, fila y número de asiento para que sean eficientemente guardados y sacados de colecciones como HashMap y HashSet. 
         -La decisión sobre el 31: El multiple del 31 es porque es un número primo impar, la cual distribuye HashCode más uniforme y minimiza las colisiones Hash. 
 
